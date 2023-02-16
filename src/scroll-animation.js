@@ -53,7 +53,7 @@ class Subscriber{
 }
 
 
-class Style{
+export class Style{
     opacity = 1;
     translateX = 0;
     translateY = 0;
@@ -64,7 +64,7 @@ class Style{
     }
 }
 
-class Options{
+export class Options{
     easing = 'linear';
 }
 
@@ -94,7 +94,7 @@ function interpolate(percent,from,to,easing){
  * let anim = new Animation();
  * anim.from(0,{opacity:0}).to(1,{opacity:1});
  */
-class Animation{
+export class Animation{
     _min = 0;
     _max = 1;
     _from = null;
