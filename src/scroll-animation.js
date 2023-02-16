@@ -65,8 +65,7 @@ export class Style{
 
     applyTo(element){
         element.style.opacity = `${this.opacity}`;
-        element.style.transform = `translate(${this.translateX}px,${this.translateY}px)`;
-        element.style.transform = `scale(${this.scaleX},${this.scaleY})`;
+        element.style.transform = `translate(${this.translateX}px,${this.translateY}px) scale(${this.scaleX},${this.scaleY})`;
     }
 }
 
