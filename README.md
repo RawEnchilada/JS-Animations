@@ -34,6 +34,33 @@ Registers selected element(s) to be updated on scroll using the returned <b>Anim
 
 <br/><br/>
 
+### <b>Position calculation functions:</b>
+
+<b>elementTop(selector)</b>
+Returns the top position of the element(s) relative to the document in scroll percentage.
+
+<b>elementBottom(selector)</b>
+Returns the bottom position of the element(s) relative to the document in scroll percentage.
+
+<b>elementHeight(selector)</b>
+Returns the height of the element(s) in scroll percentage.
+
+> Note: if the selector matches multiple elements, the functions will return the data of the first element.<br/>
+
+It is recommended to use these functions to calculate the position of the element(s) on scroll.</br>
+Example:
+```javascript
+const start = elementBottom('.myElement(s)');
+const finish = elementBottom('.myElement(s)') + elementHeight('.myElement(s)');
+
+updateOnScroll('.myElement(s)')
+    .from(start,{opacity:0})
+    .to(finish,{opacity:1});
+```
+
+
+<br/><br/>
+
 ### <b>Animation</b>
 The <b>Animation</b> object is returned by the entry point functions and is used to define the animation for the element(s) registered with it.<br/>
 The <b>from</b> and <b>to</b> functions are used to define the 2 styles that will be used to interpolate the element(s) style on scroll.<br/>
