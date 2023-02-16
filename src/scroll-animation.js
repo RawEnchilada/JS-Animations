@@ -35,6 +35,9 @@ class Publisher{
 
 }
 
+class IScrollListener{
+    listen(percent,element){};
+}
 
 class Subscriber{
     _animation;
@@ -47,7 +50,7 @@ class Subscriber{
 
 
     apply(percent){
-        this._animation.currentStyle(percent).applyTo(this._element);
+        this._animation.listen(percent,this._element);
     }
 
 }
@@ -92,12 +95,93 @@ function interpolate(percent,from,to,easing){
 /**
  * @class
  * @description
+ * Trigger object used to apply effects on an element at a specific scroll position.
+ * @example
+ * let trigger = new Trigger();
+ * trigger.after(0.5).applyClass('my-class');
+ */
+export class Trigger extends IScrollListener{
+    _applyClasses = [];
+    _removeClasses = [];
+    _after = null;
+    _before = null;
+
+    /**
+     * @memberof Trigger
+     * @param {Number} percent
+     * @returns {Trigger} this
+     * @description
+     * Set the scroll position after which the trigger will be applied.
+     */
+    after(percent){
+        this._after = percent;
+        return this;
+    }
+
+    /**
+     * @memberof Trigger
+     * @param {Number} percent
+     * @returns {Trigger} this
+     * @description
+     * Set the scroll position before which the trigger will be applied.
+     */
+    before(percent){
+        this._before = percent;
+        return this;
+    }
+
+    /**
+     * @memberof Trigger
+     * @param {String} className
+     * @returns {Trigger} this
+     */
+    applyClass(className){
+        this._applyClasses.push(className);
+        return this;
+    }
+
+    /**
+     * @memberof Trigger
+     * @param {String} className
+     * @returns {Trigger} this
+     */
+    removeClass(className){
+        this._removeClasses.push(className);
+        return this;
+    }
+
+    listen(percent,element){
+        if(this._after != null && percent >= this._after){
+            for(let c of this._applyClasses){
+                element.classList.add(c);
+            }
+            for(let c of this._removeClasses){
+                element.classList.remove(c);
+            }
+            this._after = null;
+        }
+        if(this._before != null && percent <= this._before){
+            for(let c of this._applyClasses){
+                element.classList.remove(c);
+            }
+            for(let c of this._removeClasses){
+                element.classList.add(c);
+            }
+            this._before = null;
+        }
+    }
+
+}
+
+/**
+ * @class
+ * @description
  * Animation object used to define the animation of an element.
  * @example
  * let anim = new Animation();
  * anim.from(0,{opacity:0}).to(1,{opacity:1});
  */
-export class Animation{
+export class Animation extends IScrollListener{
     _min = 0;
     _max = 1;
     _from = null;
@@ -166,7 +250,7 @@ export class Animation{
     }
 
 
-    currentStyle(percent){
+    listen(percent,element){
         let style = new Style();
         let relative_percent = (percent - this._min) / (this._max - this._min);
         if(percent < this._min){
@@ -178,7 +262,7 @@ export class Animation{
         for(let key of this._volatiles){
             style[key] = interpolate(relative_percent,this._from[key],this._to[key],this._options.easing);
         }
-        return style;
+        style.applyTo(element);
     }
 
 }
@@ -207,10 +291,24 @@ export function updateOnScroll(selector){
     return anim;
 }
 
-
 /**
- * Not yet implemented
+ * @description
+ * Registers selected element(s) to be updated on a specific scroll position using the returned trigger object.
+ * @param {String} selector 
+ * @returns {Trigger} trigger
+ * @example
+ * triggerOnScroll('#my-element').at(0.5).applyClass('my-class');
  */
 export function triggerOnScroll(selector){
-    return null;
+    let elements = document.querySelectorAll(selector);
+    if(elements.length === 0){
+        console.error(`Scroll animations could not find any element with the selector: '${selector}'`);
+        return null;
+    }
+    let trigger = new Trigger();
+    for(let e of elements){
+        let s = new Subscriber(e,trigger);
+        scroll_publisher.subscribe(s);
+    }
+    return trigger;
 }

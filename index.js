@@ -1,4 +1,4 @@
-import { updateOnScroll, Style, Options } from "./src/scroll-animation";
+import { updateOnScroll,triggerOnScroll, Style, Options } from "./src/scroll-animation";
 
 function elementTop(selector){
     const element = document.querySelector(selector);
@@ -20,6 +20,7 @@ function elementHeight(selector){
 
 export {
     updateOnScroll,
+    triggerOnScroll,
     Style,
     Options,
     elementTop,

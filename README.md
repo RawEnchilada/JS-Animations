@@ -11,12 +11,16 @@ npm install basic-scroll-animations
 ## Usage
 
 ```javascript
-import { updateOnScroll } from 'basic-scroll-animations';
+import { updateOnScroll,triggerOnScroll,elementBottom } from 'basic-scroll-animations';
 
 updateOnScroll('.myElement(s)')
     .from(0,{opacity:0})
     .to(1,{opacity:1})
     .using({easing:'easeInOut'});
+
+triggerOnScroll('.myElement(s)')
+    .after(elementBottom('.myElement'))
+    .applyClass('myClass');
 ```
 
 ## API
@@ -31,6 +35,17 @@ Registers selected element(s) to be updated on scroll using the returned <b>Anim
 |selector | String | CSS selector for the element(s) to be updated on scroll. |
 
 **Returns**: <b>Animation</b>
+
+<br/><br/>
+
+### <b>Entry point: triggerOnScroll(selector)</b>
+Registers selected element(s) to be applied an effect on scroll using the returned <b>Trigger</b> object.<br/>
+
+| Param | Type | Description |
+| --- | --- | --- |
+|selector | String | CSS selector for the element(s) to be updated on scroll. |
+
+**Returns**: <b>Trigger</b>
 
 <br/><br/>
 
@@ -122,4 +137,50 @@ The <b>Options</b> object currently supports the following properties:<br/>
 | Property | Type | Values | Description |
 | --- | --- | --- | --- |
 | easing | String | linear<br/>easeIn<br/>easeOut<br/>easeInOut | The easing function to be used to interpolate the element(s) style on scroll. |
+
+<br/><br/>
+
+### <b>Trigger</b>
+The <b>Trigger</b> object is returned by an entry function and is used to apply effects to the selected elements at a specific scroll position.<br/>
+<b>!Should only be initalized by an entry function.</b>
+
+<b>after</b><br/>
+Applies the given style to the selected elements after the given scroll position.
+
+| Param | Type | Description |
+| --- | --- | --- | 
+|percent | Number | The percentage (between 0 and 1) at which the style should be applied to the element(s). |
+
+**Returns**: <b>Trigger</b>
+
+<br/><br/>
+
+<b>before</b><br/>
+Applies the given style to the selected elements before the given scroll position.
+
+| Param | Type | Description |
+| --- | --- | --- |
+|percent | Number | The percentage (between 0 and 1) at which the style should be applied to the element(s). |
+
+**Returns**: <b>Trigger</b>
+
+<br/><br/>
+
+<b>applyClass</b><br/>
+
+| Param | Type | Description |
+| --- | --- | --- |
+| className | String | The class name to be applied to the element(s). |
+
+**Returns**: <b>Trigger</b>
+
+<br/><br/>
+
+<b>removeClass</b><br/>
+
+| Param | Type | Description |
+| --- | --- | --- |
+| className | String | The class name to be removed from the element(s). |
+
+**Returns**: <b>Trigger</b>
 
