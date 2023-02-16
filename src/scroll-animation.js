@@ -161,8 +161,15 @@ export class Animation{
 
     currentStyle(percent){
         let style = new Style();
+        let relative_percent = (percent - this._min) / (this._max - this._min);
+        if(percent < this._min){
+            relative_percent = 0;
+        }
+        else if(percent > this._max){
+            relative_percent = 1;
+        }
         for(let key of this._volatiles){
-            style[key] = interpolate(percent,this._from[key],this._to[key],this._options.easing);
+            style[key] = interpolate(relative_percent,this._from[key],this._to[key],this._options.easing);
         }
         return style;
     }
