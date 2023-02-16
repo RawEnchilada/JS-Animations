@@ -110,6 +110,8 @@ The <b>Style</b> object currently supports the following properties:<br/>
 | opacity | Number | 0-1 | The opacity of the element(s). |
 | translateX | Number | any | The X translation of the element(s). |
 | translateY | Number | any | The Y translation of the element(s). |
+| scaleX | Number | any | The X scale of the element(s). |
+| scaleY | Number | any | The Y scale of the element(s). |
 
 <br/><br/>
 

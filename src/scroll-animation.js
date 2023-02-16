@@ -57,10 +57,13 @@ export class Style{
     opacity = 1;
     translateX = 0;
     translateY = 0;
+    scaleX = 1;
+    scaleY = 1;
 
     applyTo(element){
         element.style.opacity = `${this.opacity}`;
         element.style.transform = `translate(${this.translateX}px,${this.translateY}px)`;
+        element.style.transform = `scale(${this.scaleX},${this.scaleY})`;
     }
 }
 
@@ -110,6 +113,8 @@ export class Animation{
      * @param {Number} style.opacity
      * @param {Number} style.translateX
      * @param {Number} style.translateY
+     * @param {Number} style.scaleX
+     * @param {Number} style.scaleY
      * @returns {Animation} this
      */
     from(percent,style){
@@ -125,6 +130,8 @@ export class Animation{
      * @param {Number} style.opacity
      * @param {Number} style.translateX
      * @param {Number} style.translateY
+     * @param {Number} style.scaleX
+     * @param {Number} style.scaleY
      * @returns {Animation} this
      */
     to(percent,style){
